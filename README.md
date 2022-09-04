@@ -27,7 +27,3 @@ Script parameters (default: []):
 ```ps
 python RunConfigurator.py -NameOfConfiguration
 ```
-
-## :warning: Information 
-
-The arguments of the scripts aren't working yet.
