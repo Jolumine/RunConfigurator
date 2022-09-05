@@ -15,12 +15,12 @@ class RunConfigurator:
         
     # Main Method 
     def execute(self):
-        if self.script == "init" and not self.check_file(self.config_file): # inits the whole application 
+        if self.script == "init" and not os.path.exists(self.config_file): # inits the whole application 
             print("Initilization")
             with open(self.config_file, "w") as f: 
                 f.write("{}")
         
-        elif self.script == "add" and self.check_file(self.config_file): # creates new script / configuration
+        elif self.script == "add" and os.path.exists(self.config_file): # creates new script / configuration
             print("Add configuration: ")
             name = input("Name: ")
             path = input("Script Path (Enter absolute path): ")
@@ -34,10 +34,10 @@ class RunConfigurator:
                 json.dump(parsed, f, indent=4, sort_keys=False)
         
         else: # Executes the script
-            if self.check_file(self.config_file):
+            if os.path.exists(self.config_file):
                 with open(self.config_file, "r") as f: 
                     parsed = json.load(f)
-                if self.check_config(self.script, parsed):
+                if self.script in parsed:
                     file = parsed[self.script]["file"]
                     folder = "".join(os.listdir("."))
 
@@ -62,20 +62,6 @@ class RunConfigurator:
                     print("Error, command not defined.")
             else: 
                 print("Error, -init first.")
-
-    @staticmethod
-    def check_config(script, data):
-        if script in data: 
-            return True 
-        else: 
-            return False  
-
-    @staticmethod
-    def check_file(file):
-        if os.path.exists(file):
-            return True 
-        else: 
-            return False 
 
     
 
